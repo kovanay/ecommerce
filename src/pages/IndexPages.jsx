@@ -144,11 +144,10 @@ export default function MenuPrincipalMaquillaje() {
               <li key={cat}>
                 <button
                   onClick={() => setCategory(cat)}
-                  className={`w-full text-left py-2 px-3 rounded-lg ${
-                    category === cat
-                      ? "bg-pink-600 text-white"
-                      : "hover:bg-pink-50"
-                  }`}
+                  className={`w-full text-left py-2 px-3 rounded-lg ${category === cat
+                    ? "bg-pink-600 text-white"
+                    : "hover:bg-pink-50"
+                    }`}
                 >
                   {cat}
                 </button>
@@ -211,11 +210,10 @@ export default function MenuPrincipalMaquillaje() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => toggleLike(p.id)}
-                      className={`p-2 rounded-md ${
-                        liked.includes(p.id)
-                          ? "bg-pink-100 text-pink-600"
-                          : "hover:bg-gray-100"
-                      }`}
+                      className={`p-2 rounded-md ${liked.includes(p.id)
+                        ? "bg-pink-100 text-pink-600"
+                        : "hover:bg-gray-100"
+                        }`}
                       title="Me gusta"
                     >
                       <Heart size={16} />

@@ -1,4 +1,3 @@
-import Input from "../components/Input";
 
 const LoginPages = () => {
   return (
