@@ -15,31 +15,31 @@ const PRODUCTS = [
     name: "Labial Mate",
     category: "Labios",
     price: 199,
-    rating: 4.5,
-    img: "https://via.placeholder.com/240x160?text=Labial",
+
+    img: "https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1189",
   },
   {
     id: 2,
     name: "Base Hidratante",
     category: "Rostro",
     price: 349,
-    rating: 4.7,
-    img: "https://via.placeholder.com/240x160?text=Base",
+
+    img: "https://images.unsplash.com/photo-1695634327065-e1b653a48566?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
   },
   {
     id: 3,
     name: "Sombras 12 tonos",
     category: "Ojos",
     price: 299,
-    rating: 4.3,
-    img: "https://via.placeholder.com/240x160?text=Sombras",
+
+    img: "https://images.unsplash.com/photo-1668440476639-095ea4207383?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
   },
   {
     id: 4,
     name: "Delineador Líquido",
     category: "Ojos",
     price: 129,
-    rating: 4.1,
+
     img: "https://via.placeholder.com/240x160?text=Delineador",
   },
   {
@@ -47,7 +47,7 @@ const PRODUCTS = [
     name: "Rubor en Crema",
     category: "Rostro",
     price: 159,
-    rating: 4.0,
+
     img: "https://via.placeholder.com/240x160?text=Rubor",
   },
   {
@@ -55,14 +55,14 @@ const PRODUCTS = [
     name: "Perfume de Bolsillo",
     category: "Fragancias",
     price: 499,
-    rating: 4.8,
+
     img: "https://via.placeholder.com/240x160?text=Perfume",
   },
 ];
 
 const CATEGORIES = ["Todo", "Rostro", "Ojos", "Labios", "Fragancias"];
 
-export default function MenuPrincipalMaquillaje() {
+export default function ProductCatalogPage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todo");
   const [sort, setSort] = useState("relevance");
@@ -95,6 +95,43 @@ export default function MenuPrincipalMaquillaje() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white to-pink-50 p-6">
+      <nav className="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div className="container mx-auto flex justify-between items-center py-5 px-6 lg:px-16">
+          <h1 className="text-3xl tracking-widest font-bold text-gray-800">
+            MKM BEAUTY
+          </h1>
+          <ul className="hidden md:flex space-x-10 text-sm uppercase font-medium tracking-wide">
+            <li>
+              <a href="" className="hover:text-gray-500 transition">
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a
+                href="/product-catalog"
+                className="hover:text-gray-500 transition"
+              >
+                Colección
+              </a>
+            </li>
+            <li>
+              <a href="#ofertas" className="hover:text-gray-500 transition">
+                Novedades
+              </a>
+            </li>
+            <li>
+              <a href="#contacto" className="hover:text-gray-500 transition">
+                Contacto
+              </a>
+            </li>
+            <li>
+              <a href="/login" className="hover:text-red-800 transition">
+                Cerrar Sesion
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
       <header className="max-w-6xl mx-auto flex items-center justify-between gap-4 mb-6">
         <h1 className="text-3xl font-extrabold tracking-tight">
           Menu de Maquillaje
@@ -125,7 +162,7 @@ export default function MenuPrincipalMaquillaje() {
           </div>
 
           <button
-            className="flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md"
+            className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg shadow-md"
             title="Carrito"
           >
             <ShoppingCart size={18} /> <span>{cart.length}</span>
@@ -144,10 +181,11 @@ export default function MenuPrincipalMaquillaje() {
               <li key={cat}>
                 <button
                   onClick={() => setCategory(cat)}
-                  className={`w-full text-left py-2 px-3 rounded-lg ${category === cat
-                    ? "bg-pink-600 text-white"
-                    : "hover:bg-pink-50"
-                    }`}
+                  className={`w-full text-left py-2 px-3 rounded-lg ${
+                    category === cat
+                      ? "bg-gray-700 text-white"
+                      : "hover:bg-pink-50"
+                  }`}
                 >
                   {cat}
                 </button>
@@ -208,20 +246,21 @@ export default function MenuPrincipalMaquillaje() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button
+                    {/* <button
                       onClick={() => toggleLike(p.id)}
-                      className={`p-2 rounded-md ${liked.includes(p.id)
-                        ? "bg-pink-100 text-pink-600"
-                        : "hover:bg-gray-100"
-                        }`}
+                      className={`p-2 rounded-md ${
+                        liked.includes(p.id)
+                          ? "bg-pink-100 text-shadow-gray-900"
+                          : "hover:bg-gray-100"
+                      }`}
                       title="Me gusta"
                     >
                       <Heart size={16} />
-                    </button>
+                    </button> */}
 
                     <button
                       onClick={() => addToCart(p)}
-                      className="px-3 py-2 bg-pink-600 text-white rounded-lg flex items-center gap-2"
+                      className="px-3 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2"
                       title="Agregar al carrito"
                     >
                       <ShoppingCart size={14} /> Añadir
@@ -231,7 +270,7 @@ export default function MenuPrincipalMaquillaje() {
 
                 <button
                   onClick={() => setSelected(p)}
-                  className="mt-3 text-sm text-left text-pink-600 underline"
+                  className="mt-3 text-sm text-left text-gary-500 underline"
                 >
                   Ver detalles
                 </button>
@@ -274,7 +313,7 @@ export default function MenuPrincipalMaquillaje() {
                       addToCart(selected);
                       setSelected(null);
                     }}
-                    className="px-4 py-2 bg-pink-600 text-white rounded-lg"
+                    className="px-4 py-2 bg-gray-800 text-white rounded-lg"
                   >
                     Comprar
                   </button>
