@@ -1,28 +1,30 @@
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-
-  const productos = [
+  const navigate = useNavigate();
+  const products = [
     {
-      nombre: "Sérum Iluminador de Piel",
-      precio: "$890 MXN",
-      descripcion:
+      name: "Sérum Iluminador de Piel",
+      price: "$890 MXN",
+      description:
         "Un toque de lujo para tu rutina. Fórmula ligera con perlas luminosas que realzan la piel.",
-      imagen: "",
+      url_image: "",
     },
     {
-      nombre: "Labial Luxe Mate",
-      precio: "$720 MXN",
-      descripcion:
+      name: "Labial Luxe Mate",
+      price: "$720 MXN",
+      description:
         "Color intenso y textura sedosa con acabado profesional. Inspirado en el glamour parisino.",
-      imagen:
+      url_image:
         "https://images.unsplash.com/photo-1619352520578-8fefbfa2f904?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=735",
     },
     {
-      nombre: "Paleta de Sombras Doradas",
-      precio: "$1,050 MXN",
-      descripcion:
+      name: "Paleta de Sombras Doradas",
+      price: "$1,050 MXN",
+      description:
         "Tonos cálidos con pigmentos brillantes. Ideal para un maquillaje elegante de día o noche.",
-      imagen: "",
+      url_image: "",
     },
   ];
 
@@ -63,21 +65,29 @@ const HomePage = () => {
           COLECCIÓN DESTACADA
         </h3>
         <div className="grid md:grid-cols-3 gap-12">
-          {productos.map((p, i) => (
-            <div key={i} className="text-center group">
+          {products.map((p) => (
+            <motion.article
+              layout
+              whileHover={{
+                translateY: -6,
+                boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+              }}
+              className="text-center group rounded-lg cursor-pointer"
+              onClick={() => navigate("/product-catalog")}
+            >
               <div className="overflow-hidden rounded-lg shadow-sm">
                 <img
-                  src={p.imagen}
-                  alt={p.nombre}
+                  src={p.url_image}
+                  alt={p.name}
                   className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <h4 className="mt-6 text-xl font-semibold text-gray-800">
-                {p.nombre}
+                {p.name}
               </h4>
-              <p className="text-gray-500 text-sm mt-2 mb-3">{p.descripcion}</p>
-              <p className="font-medium text-gray-900">{p.precio}</p>
-            </div>
+              <p className="text-gray-500 text-sm mt-2 mb-3">{p.description}</p>
+              <p className="font-medium text-gray-900">{p.price}</p>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -96,7 +106,7 @@ const HomePage = () => {
             clásica y la innovación moderna. Siente el poder de la simplicidad.
           </p>
           <a
-            href="#productos"
+            href="/product-catalog"
             className="border border-white px-6 py-3 text-sm tracking-widest hover:bg-white hover:text-black transition duration-300"
           >
             EXPLORAR

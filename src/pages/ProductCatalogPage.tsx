@@ -33,7 +33,7 @@ export default function ProductCatalogPage() {
     <div className="min-h-screen bg-linear-to-b from-white to-pink-50 p-6">
       <header className="max-w-6xl mx-auto flex items-center justify-between gap-4 mb-6">
         <h1 className="text-3xl font-extrabold tracking-tight">
-          Menu de Maquillaje
+          Catalogo de Productos
         </h1>
 
         <div className="flex items-center gap-3">
