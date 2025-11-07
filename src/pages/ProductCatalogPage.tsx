@@ -1,137 +1,36 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, ShoppingCart, Heart, Filter } from "lucide-react";
-
-// Componente principal: MenuPrincipalMaquillaje
-// Requisitos:
-// - Export por defecto
-// - Tailwind para estilos (no necesita import en este archivo)
-// - Animaciones con framer-motion
-// - Datos mock (puedes sustituir por API más adelante)
-
-const PRODUCTS = [
-  {
-    id: 1,
-    name: "Labial Mate",
-    category: "Labios",
-    price: 199,
-
-    img: "https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1189",
-  },
-  {
-    id: 2,
-    name: "Base Hidratante",
-    category: "Rostro",
-    price: 349,
-
-    img: "https://images.unsplash.com/photo-1695634327065-e1b653a48566?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-  },
-  {
-    id: 3,
-    name: "Sombras 12 tonos",
-    category: "Ojos",
-    price: 299,
-
-    img: "https://images.unsplash.com/photo-1668440476639-095ea4207383?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
-  },
-  {
-    id: 4,
-    name: "Delineador Líquido",
-    category: "Ojos",
-    price: 129,
-
-    img: "https://via.placeholder.com/240x160?text=Delineador",
-  },
-  {
-    id: 5,
-    name: "Rubor en Crema",
-    category: "Rostro",
-    price: 159,
-
-    img: "https://via.placeholder.com/240x160?text=Rubor",
-  },
-  {
-    id: 6,
-    name: "Perfume de Bolsillo",
-    category: "Fragancias",
-    price: 499,
-
-    img: "https://via.placeholder.com/240x160?text=Perfume",
-  },
-];
+import { Search, ShoppingCart, Filter } from "lucide-react";
+import useProductCatalog from "../hooks/useProductCatalog";
+import { pricePerUnit } from "../utils/convert_price_in_cents";
+import { type ProductType } from "../interface/product.type";
+import useCart from "../hooks/useCart";
 
 const CATEGORIES = ["Todo", "Rostro", "Ojos", "Labios", "Fragancias"];
 
 export default function ProductCatalogPage() {
+  const { products } = useProductCatalog();
+  const { cart, addToCart } = useCart();
+
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todo");
   const [sort, setSort] = useState("relevance");
-  const [cart, setCart] = useState([]);
-  const [liked, setLiked] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<ProductType | null>(null);
 
-  const filtered = PRODUCTS.filter((p) => {
-    const matchesCategory = category === "Todo" || p.category === category;
-    const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase());
-    return matchesCategory && matchesQuery;
-  }).sort((a, b) => {
-    if (sort === "price-asc") return a.price - b.price;
-    if (sort === "price-desc") return b.price - a.price;
-    if (sort === "rating") return b.rating - a.rating;
-    return a.id - b.id; // relevance (default)
-  });
-
-  function addToCart(product) {
-    setCart((c) => [...c, product]);
-  }
-
-  function toggleLike(productId) {
-    setLiked((l) =>
-      l.includes(productId)
-        ? l.filter((x) => x !== productId)
-        : [...l, productId]
-    );
-  }
+  const filtered = products?.data
+    .filter((p) => {
+      const matchesCategory = category === "Todo" || p.category === category;
+      const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase());
+      return matchesCategory && matchesQuery;
+    })
+    .sort((a, b) => {
+      if (sort === "price-asc") return a.price_cents - b.price_cents;
+      if (sort === "price-desc") return b.price_cents - a.price_cents;
+      return a.product_id - b.product_id;
+    });
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white to-pink-50 p-6">
-      <nav className="bg-white shadow-sm fixed w-full top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center py-5 px-6 lg:px-16">
-          <h1 className="text-3xl tracking-widest font-bold text-gray-800">
-            MKM BEAUTY
-          </h1>
-          <ul className="hidden md:flex space-x-10 text-sm uppercase font-medium tracking-wide">
-            <li>
-              <a href="" className="hover:text-gray-500 transition">
-                Inicio
-              </a>
-            </li>
-            <li>
-              <a
-                href="/product-catalog"
-                className="hover:text-gray-500 transition"
-              >
-                Colección
-              </a>
-            </li>
-            <li>
-              <a href="#ofertas" className="hover:text-gray-500 transition">
-                Novedades
-              </a>
-            </li>
-            <li>
-              <a href="#contacto" className="hover:text-gray-500 transition">
-                Contacto
-              </a>
-            </li>
-            <li>
-              <a href="/login" className="hover:text-red-800 transition">
-                Cerrar Sesion
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
       <header className="max-w-6xl mx-auto flex items-center justify-between gap-4 mb-6">
         <h1 className="text-3xl font-extrabold tracking-tight">
           Menu de Maquillaje
@@ -154,10 +53,8 @@ export default function ProductCatalogPage() {
               onChange={(e) => setSort(e.target.value)}
               className="py-2 px-3 rounded-lg border"
             >
-              <option value="relevance">Más relevantes</option>
               <option value="price-asc">Precio: menor a mayor</option>
               <option value="price-desc">Precio: mayor a menor</option>
-              <option value="rating">Mejor calificados</option>
             </select>
           </div>
 
@@ -196,9 +93,9 @@ export default function ProductCatalogPage() {
           <div className="mt-6">
             <h3 className="text-sm font-medium">Favoritos rápidos</h3>
             <div className="mt-2 flex flex-wrap gap-2">
-              {PRODUCTS.slice(0, 3).map((p) => (
+              {products?.data.slice(0, 3).map((p) => (
                 <button
-                  key={p.id}
+                  key={p.product_id}
                   onClick={() => setSelected(p)}
                   className="text-xs px-2 py-1 rounded-md border"
                 >
@@ -214,14 +111,14 @@ export default function ProductCatalogPage() {
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold">Productos</h2>
             <p className="text-sm text-gray-600">
-              Mostrando {filtered.length} resultado(s)
+              Mostrando {filtered?.length} resultado(s)
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((p) => (
+            {filtered?.map((p) => (
               <motion.article
-                key={p.id}
+                key={p.product_id}
                 layout
                 whileHover={{
                   translateY: -6,
@@ -230,7 +127,7 @@ export default function ProductCatalogPage() {
                 className="bg-white rounded-2xl p-4 shadow-sm flex flex-col"
               >
                 <img
-                  src={p.img}
+                  src={p.url_image}
                   alt={p.name}
                   className="w-full h-40 object-cover rounded-lg mb-3"
                 />
@@ -240,9 +137,11 @@ export default function ProductCatalogPage() {
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <div>
-                    <div className="text-lg font-bold">${p.price}</div>
-                    <div className="text-xs text-gray-500">⭐ {p.rating}</div>
+                  <div className="flex flex-row items-center gap-1 ">
+                    <div className="text-lg font-bold">
+                      ${pricePerUnit(p.price_cents)}
+                    </div>
+                    <div className="text-xs text-gray-500">⭐</div>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -259,7 +158,7 @@ export default function ProductCatalogPage() {
                     </button> */}
 
                     <button
-                      onClick={() => addToCart(p)}
+                      onClick={() => addToCart(p.product_id, 1, p.price_cents)}
                       className="px-3 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2"
                       title="Agregar al carrito"
                     >
@@ -270,7 +169,7 @@ export default function ProductCatalogPage() {
 
                 <button
                   onClick={() => setSelected(p)}
-                  className="mt-3 text-sm text-left text-gary-500 underline"
+                  className="mt-3 text-sm text-left text-gary-500 underline cursor-pointer"
                 >
                   Ver detalles
                 </button>
@@ -294,7 +193,7 @@ export default function ProductCatalogPage() {
           >
             <div className="flex items-start gap-4">
               <img
-                src={selected.img}
+                src={selected.url_image}
                 alt={selected.name}
                 className="w-40 h-32 object-cover rounded-lg"
               />
@@ -303,23 +202,25 @@ export default function ProductCatalogPage() {
                 <p className="text-sm text-gray-600">
                   Categoría: {selected.category}
                 </p>
-                <p className="mt-2 text-lg font-semibold">${selected.price}</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Calificación: ⭐ {selected.rating}
-                </p>
+                <div className="flex flex-row gap-2 items-center mt-4">
+                  <p className="text-lg font-semibold">
+                    ${pricePerUnit(selected.price_cents)}
+                  </p>
+                  <p className="text-sm text-gray-500">⭐</p>
+                </div>
                 <div className="mt-4 flex gap-3">
                   <button
                     onClick={() => {
-                      addToCart(selected);
+                      addToCart(selected.product_id, 1, selected.price_cents);
                       setSelected(null);
                     }}
-                    className="px-4 py-2 bg-gray-800 text-white rounded-lg"
+                    className="px-4 py-2 bg-gray-800 text-white rounded-lg cursor-pointer"
                   >
                     Comprar
                   </button>
                   <button
                     onClick={() => setSelected(null)}
-                    className="px-4 py-2 border rounded-lg"
+                    className="px-4 py-2 border rounded-lg cursor-pointer"
                   >
                     Cerrar
                   </button>
@@ -329,11 +230,6 @@ export default function ProductCatalogPage() {
           </motion.div>
         </div>
       )}
-
-      {/* Footer simple */}
-      <footer className="mt-10 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Tienda de Maquillaje — Demo
-      </footer>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import React from "react";
 
-const App = () => {
+const HomePage = () => {
+
   const productos = [
     {
       nombre: "Sérum Iluminador de Piel",
@@ -29,43 +29,6 @@ const App = () => {
   return (
     <div className="bg-neutral-50 text-gray-900 font-serif">
       {/* NAVBAR */}
-      <nav className="bg-white shadow-sm fixed w-full top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center py-5 px-6 lg:px-16">
-          <h1 className="text-3xl tracking-widest font-bold text-gray-800">
-            MKM BEAUTY
-          </h1>
-          <ul className="hidden md:flex space-x-10 text-sm uppercase font-medium tracking-wide">
-            <li>
-              <a href="#inicio" className="hover:text-gray-500 transition">
-                Inicio
-              </a>
-            </li>
-            <li>
-              <a
-                href="/product-catalog"
-                className="hover:text-gray-500 transition"
-              >
-                Colección
-              </a>
-            </li>
-            <li>
-              <a href="#ofertas" className="hover:text-gray-500 transition">
-                Novedades
-              </a>
-            </li>
-            <li>
-              <a href="#contacto" className="hover:text-gray-500 transition">
-                Contacto
-              </a>
-            </li>
-            <li>
-              <a href="/login" className="hover:text-red-800 transition">
-                Cerrar Sesion
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
 
       {/* HERO */}
       <section
@@ -178,4 +141,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default HomePage;
