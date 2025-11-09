@@ -10,6 +10,8 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 import AdminLayout from "./layouts/AdminLayout";
 import ProductPage from "./pages/AdminPages/ProductPage";
 import OrdersPage from "./pages/OrdersPage";
+import PaymentPage from "./pages/PaymentPage";
+import AddressPage from "./pages/AddressPage";
 
 const AppRouter = () => {
   return (
@@ -25,6 +27,8 @@ const AppRouter = () => {
           <Route path="/product-catalog" element={<ProductCatalogPage />} />
           <Route path="/orders" element={<OrdersPage />} />
         </Route>
+        <Route path="/address" element={<AddressPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
       </Route>
 
       <Route

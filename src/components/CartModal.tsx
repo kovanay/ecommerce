@@ -3,6 +3,7 @@ import { useCart } from "../contexts/cartContext";
 import { pricePerUnit } from "../utils/convert_price_in_cents";
 import { Plus, Minus } from "lucide-react";
 import type { ProductType } from "../interface/product.type";
+import { useNavigate } from "react-router-dom";
 
 interface CartAsideProps {
   cartProducts: ProductType[];
@@ -16,6 +17,8 @@ const CartAside: React.FC<CartAsideProps> = ({
   onClose,
 }) => {
   const { cart, cartTotal, changeQuantity, clearAllCart } = useCart();
+
+  const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -108,6 +111,7 @@ const CartAside: React.FC<CartAsideProps> = ({
                 <button
                   type="button"
                   className="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700"
+                  onClick={() => navigate("/payment")}
                 >
                   Proceder al Pago
                 </button>

@@ -59,7 +59,7 @@ export default function ProductCatalogPage() {
           </div>
 
           <button
-            className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg shadow-md"
+            className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg shadow-md cursor-pointer"
             title="Carrito"
             onClick={toggleModalCart}
           >

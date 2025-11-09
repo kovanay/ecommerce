@@ -54,9 +54,9 @@ const Layout = () => {
           </ul>
         </div>
       </nav>
-      <main className="min-h-screen mt-20">
+      <div className="min-h-screen mt-20">
         <Outlet />
-      </main>
+      </div>
 
       <footer className="mt-10 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} Tienda de Maquillaje — Demo
