@@ -2,11 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import {
   type EditProductType,
   type PaginationProduct,
+  type ProductType,
 } from "../interface/product.type";
 import { productFetch } from "../lib/productApi";
 
 const useProductCatalog = () => {
   const [products, setProducts] = useState<PaginationProduct | null>(null);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("Todo");
+  const [sort, setSort] = useState("relevance");
+  const [selected, setSelected] = useState<ProductType | null>(null);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -65,7 +70,31 @@ const useProductCatalog = () => {
     fetchProducts();
   }, []);
 
-  return { products, createProduct, updateProduct };
+  const filtered = products?.data
+    .filter((p) => {
+      const matchesCategory = category === "Todo" || p.category === category;
+      const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase());
+      return matchesCategory && matchesQuery;
+    })
+    .sort((a, b) => {
+      if (sort === "price-asc") return a.price_cents - b.price_cents;
+      if (sort === "price-desc") return b.price_cents - a.price_cents;
+      return a.product_id - b.product_id;
+    });
+  return {
+    filtered,
+    products,
+    createProduct,
+    updateProduct,
+    query,
+    setQuery,
+    sort,
+    setSort,
+    category,
+    setCategory,
+    selected,
+    setSelected,
+  };
 };
 
 export default useProductCatalog;

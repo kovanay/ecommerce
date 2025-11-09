@@ -3,31 +3,31 @@ import { motion } from "framer-motion";
 import { Search, ShoppingCart, Filter } from "lucide-react";
 import useProductCatalog from "../hooks/useProductCatalog";
 import { pricePerUnit } from "../utils/convert_price_in_cents";
-import { type ProductType } from "../interface/product.type";
-import useCart from "../hooks/useCart";
+import { useCart } from "../contexts/cartContext";
+import CartModal from "../components/CartModal";
 
 const CATEGORIES = ["Todo", "Rostro", "Ojos", "Labios", "Fragancias"];
 
 export default function ProductCatalogPage() {
-  const { products } = useProductCatalog();
-  const { cart, addToCart } = useCart();
+  const {
+    products,
+    filtered,
+    setSelected,
+    selected,
+    setCategory,
+    category,
+    setSort,
+    sort,
+    setQuery,
+    query,
+  } = useProductCatalog();
+  const { cart, cartProducts, addToCart } = useCart();
 
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("Todo");
-  const [sort, setSort] = useState("relevance");
-  const [selected, setSelected] = useState<ProductType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const filtered = products?.data
-    .filter((p) => {
-      const matchesCategory = category === "Todo" || p.category === category;
-      const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase());
-      return matchesCategory && matchesQuery;
-    })
-    .sort((a, b) => {
-      if (sort === "price-asc") return a.price_cents - b.price_cents;
-      if (sort === "price-desc") return b.price_cents - a.price_cents;
-      return a.product_id - b.product_id;
-    });
+  const toggleModalCart = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white to-pink-50 p-6">
@@ -61,8 +61,10 @@ export default function ProductCatalogPage() {
           <button
             className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg shadow-md"
             title="Carrito"
+            onClick={toggleModalCart}
           >
-            <ShoppingCart size={18} /> <span>{cart.length}</span>
+            <ShoppingCart size={18} />{" "}
+            <span>{cart?.items !== null ? cart?.items.length : 0}</span>
           </button>
         </div>
       </header>
@@ -158,8 +160,14 @@ export default function ProductCatalogPage() {
                     </button> */}
 
                     <button
-                      onClick={() => addToCart(p.product_id, 1, p.price_cents)}
-                      className="px-3 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2"
+                      onClick={() =>
+                        addToCart({
+                          product_id: p.product_id,
+                          quantity: 1,
+                          price_cents: p.price_cents,
+                        })
+                      }
+                      className="px-3 py-2 bg-gray-700 text-white rounded-lg flex items-center gap-2 cursor-pointer"
                       title="Agregar al carrito"
                     >
                       <ShoppingCart size={14} /> Añadir
@@ -178,6 +186,13 @@ export default function ProductCatalogPage() {
           </div>
         </section>
       </main>
+
+      {/* Modal Cart */}
+      <CartModal
+        isOpen={isModalOpen}
+        onClose={toggleModalCart}
+        cartProducts={cartProducts}
+      />
 
       {/* Modal simple para ver detalles */}
       {selected && (
@@ -211,7 +226,11 @@ export default function ProductCatalogPage() {
                 <div className="mt-4 flex gap-3">
                   <button
                     onClick={() => {
-                      addToCart(selected.product_id, 1, selected.price_cents);
+                      addToCart({
+                        product_id: selected.product_id,
+                        quantity: 1,
+                        price_cents: selected.price_cents,
+                      });
                       setSelected(null);
                     }}
                     className="px-4 py-2 bg-gray-800 text-white rounded-lg cursor-pointer"

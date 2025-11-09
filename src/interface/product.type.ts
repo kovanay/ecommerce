@@ -1,3 +1,8 @@
+export interface MessageAndError {
+  message?: string;
+  error?: string | [];
+}
+
 export interface ProductType {
   product_id: number;
   name: string;
@@ -9,6 +14,7 @@ export interface ProductType {
   updated_at: string;
   created_at: string;
   url_image: string;
+  quantity?: number;
 }
 
 export interface PaginationMeta {
@@ -18,6 +24,14 @@ export interface PaginationMeta {
   currentPage: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
+}
+
+export interface ProductResponse extends MessageAndError {
+  data: ProductType[];
+}
+
+export interface ProductsParams {
+  product_ids: number[];
 }
 
 export interface PaginationProduct {

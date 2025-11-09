@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_CART_API_URL;
 
-export const productFetch = async <T = any>(
+export const cartFetch = async <T = any>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> => {
