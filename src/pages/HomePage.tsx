@@ -5,11 +5,12 @@ const HomePage = () => {
   const navigate = useNavigate();
   const products = [
     {
-      name: "Sérum Iluminador de Piel",
+      name: "Libal Iluminador de Color Rojo",
       price: "$890 MXN",
       description:
-        "Un toque de lujo para tu rutina. Fórmula ligera con perlas luminosas que realzan la piel.",
-      url_image: "",
+        "Un toque de lujo para tu rutina. Fórmula ligera con perlas luminosas que realzan tus labios.",
+      url_image:
+        "https://images.unsplash.com/photo-1626895872564-b691b6877b83?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1364",
     },
     {
       name: "Labial Luxe Mate",
@@ -24,7 +25,8 @@ const HomePage = () => {
       price: "$1,050 MXN",
       description:
         "Tonos cálidos con pigmentos brillantes. Ideal para un maquillaje elegante de día o noche.",
-      url_image: "",
+      url_image:
+        "https://plus.unsplash.com/premium_photo-1671130295843-cd4f9b29c613?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8UG9sdm9zfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900",
     },
   ];
 

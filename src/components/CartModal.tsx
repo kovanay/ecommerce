@@ -4,6 +4,7 @@ import { pricePerUnit } from "../utils/convert_price_in_cents";
 import { Plus, Minus } from "lucide-react";
 import type { ProductType } from "../interface/product.type";
 import { useNavigate } from "react-router-dom";
+import { useAddress } from "../contexts/addressContext";
 
 interface CartAsideProps {
   cartProducts: ProductType[];
@@ -17,8 +18,18 @@ const CartAside: React.FC<CartAsideProps> = ({
   onClose,
 }) => {
   const { cart, cartTotal, changeQuantity, clearAllCart } = useCart();
+  const { addressDefault } = useAddress();
 
   const navigate = useNavigate();
+
+  const handlePayment = async () => {
+    console.log(addressDefault);
+    if (addressDefault !== null) {
+      navigate("/payment");
+    } else {
+      navigate("/address");
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -110,16 +121,17 @@ const CartAside: React.FC<CartAsideProps> = ({
               <div className="flex flex-col gap-2">
                 <button
                   type="button"
-                  className="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700"
-                  onClick={() => navigate("/payment")}
+                  disabled={cartProducts.length <= 0}
+                  className={`${cartProducts.length <= 0 ? "cursor-not-allowed bg-gray-500 hover:bg-gray-500" : " bg-blue-600   hover:bg-blue-700"} text-white w-full p-3 rounded-lg font-bold`}
+                  onClick={handlePayment}
                 >
                   Proceder al Pago
                 </button>
-
                 <button
                   type="button"
+                  disabled={cartProducts.length <= 0}
                   onClick={clearAllCart}
-                  className="w-full text-blue-600 p-3 rounded-lg font-bold  border border-transparent hover:border-blue-700 transition-colors active:bg-blue-50"
+                  className={`${cartProducts.length <= 0 ? "cursor-not-allowed" : "text-blue-600  border border-transparent hover:border-blue-700  active:bg-blue-50"} w-full p-3 rounded-lg font-bold transition-colors`}
                 >
                   Limpiar Carrito
                 </button>

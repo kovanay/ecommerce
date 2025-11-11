@@ -35,14 +35,14 @@ const Layout = () => {
                 Pedidos
               </a>
             </li>
-            <li>
-              <a
-                href="#contacto"
-                className="hover:text-gray-500 transition cursor-pointer"
-              >
-                Contacto
-              </a>
-            </li>
+            {/* <li> */}
+            {/*   <a */}
+            {/*     href="#contacto" */}
+            {/*     className="hover:text-gray-500 transition cursor-pointer" */}
+            {/*   > */}
+            {/*     Contacto */}
+            {/*   </a> */}
+            {/* </li> */}
             <li>
               <a
                 onClick={logout}

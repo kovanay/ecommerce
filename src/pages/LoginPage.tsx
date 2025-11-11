@@ -1,28 +1,38 @@
 import { type FormEvent, useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { type FormLoginType } from "../interface/auth.type";
+import toast from "react-hot-toast";
 
 const LoginPages = () => {
   const { login } = useAuth();
 
-
   const [formData, setFormData] = useState<FormLoginType>({
-    password: '',
-    email: ''
+    password: "",
+    email: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await login({ email: formData.email.trim(), password: formData.password.trim() })
+    toast.promise(
+      login({
+        email: formData.email.trim(),
+        password: formData.password.trim(),
+      }),
+      {
+        loading: "Iniciando Sesión...",
+        success: <b>Se inicio sesión exitosamente!</b>,
+        error: <b>No se puedo iniciar sesión</b>,
+      },
+    );
   }
 
   return (
@@ -41,9 +51,7 @@ const LoginPages = () => {
           <label
             htmlFor="email"
             className="text-sm text-neutral-700 tracking-wide"
-          >
-
-          </label>
+          ></label>
           <input
             type="email"
             id="email"

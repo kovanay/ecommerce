@@ -1,6 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_ORDER_API_URL;
+const API_BASE_URL = import.meta.env.VITE_ADDRESS_API_URL;
 
-export const orderFetch = async <T = any>(
+export const addressFetch = async <T = any>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> => {
@@ -16,7 +16,6 @@ export const orderFetch = async <T = any>(
   };
 
   const response = await fetch(url, defaultOptions);
-  console.log(response);
 
   if (!response.ok) {
     // Intenta parsear el error del backend si existe

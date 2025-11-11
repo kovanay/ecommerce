@@ -64,7 +64,7 @@ export default function ProductCatalogPage() {
             onClick={toggleModalCart}
           >
             <ShoppingCart size={18} />{" "}
-            <span>{cart?.items !== null ? cart?.items.length : 0}</span>
+            <span>{cart?.items !== undefined ? cart?.items.length : 0}</span>
           </button>
         </div>
       </header>

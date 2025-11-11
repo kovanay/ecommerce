@@ -1,7 +1,7 @@
 export interface OrderModel {
   order_id: number;
   user_id: number;
-  payment_id: string | null;
+  payment_id: number;
   shipping_method_id: number;
   shipping_recipient_name: string;
   shipping_street_address: string;
@@ -22,4 +22,30 @@ export interface OrderModel {
 
 export interface OrderResponse {
   data: OrderModel[];
+}
+
+export interface OrderByIdResponse {
+  data: OrderModel;
+}
+
+export interface CreateOrderResponse {
+  message?: string;
+  error?: string;
+  data: { order_id: number; total_cents: number };
+}
+
+export interface FormOrderType {
+  shipping_method_id: number;
+  recipient_name: string;
+  street: string;
+  line_2: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+  subtotal_cents: number;
+  cost_cents: number;
+  taxes_cents: number;
+  total_cents: number;
+  currency: string;
 }

@@ -12,6 +12,7 @@ import ProductPage from "./pages/AdminPages/ProductPage";
 import OrdersPage from "./pages/OrdersPage";
 import PaymentPage from "./pages/PaymentPage";
 import AddressPage from "./pages/AddressPage";
+import ShippingPage from "./pages/ShippingPage";
 
 const AppRouter = () => {
   return (
@@ -29,6 +30,7 @@ const AppRouter = () => {
         </Route>
         <Route path="/address" element={<AddressPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        {/* <Route path="/shipping" element={<ShippingPage />} /> */}
       </Route>
 
       <Route

@@ -6,13 +6,15 @@ import React, {
   useCallback,
   useMemo,
   type ReactNode,
-} from 'react';
-import { authFetch } from '../lib/authApi';
-import { userFetch } from '../lib/userApi';
-import { type CredentialsType, type FormRegisterType } from '../interface/auth.type';
-import { type UserType } from '../interface/user.type';
-import { useNavigate } from 'react-router-dom';
-
+} from "react";
+import { authFetch } from "../lib/authApi";
+import { userFetch } from "../lib/userApi";
+import {
+  type CredentialsType,
+  type FormRegisterType,
+} from "../interface/auth.type";
+import { type UserType } from "../interface/user.type";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   user: UserType | null;
@@ -37,10 +39,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkSession = useCallback(async () => {
     setIsLoading(true);
     try {
-      const userData = await userFetch<UserType>('/api/users/me');
+      const userData = await userFetch<UserType>("/api/users/me");
       setUser(userData);
     } catch (error) {
-      setUser(null);
+      // setUser(null);
     } finally {
       setIsLoading(false);
     }
@@ -50,55 +52,55 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkSession();
   }, [checkSession]);
 
-  const login = useCallback(async (credentials: CredentialsType) => {
-    try {
-      const userData = await authFetch<UserType>('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-      });
-      setUser(userData);
-      if (userData.data.role === 'admin') {
-        navigate('/admin');
-      } else if (userData.data.role === 'user') {
-        navigate('/');
-      } else {
-        navigate('/login');
+  const login = useCallback(
+    async (credentials: CredentialsType) => {
+      try {
+        const userData = await authFetch<UserType>("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify(credentials),
+        });
+        setUser(userData);
+        if (userData.data.role === "admin") {
+          navigate("/admin");
+        } else if (userData.data.role === "user") {
+          navigate("/");
+        } else {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        setUser(null);
+        throw error;
       }
-    } catch (error) {
-      console.error('Error en el login:', error);
-      setUser(null);
-      throw error;
-    }
-  }, [navigate]);
+    },
+    [navigate],
+  );
 
-  const register = useCallback(async (credentials: FormRegisterType) => {
-    try {
-      const userData = await authFetch<UserType>('/api/auth/register', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-      });
-      setUser(userData);
-      if (userData.data.role === 'admin') {
-        navigate('/admin');
-      } else if (userData.data.role === 'user') {
-        navigate('/');
-      } else {
-        navigate('/login');
+  const register = useCallback(
+    async (credentials: FormRegisterType) => {
+      try {
+        const userData = await authFetch<UserType>("/api/auth/register", {
+          method: "POST",
+          body: JSON.stringify(credentials),
+        });
+        setUser(userData);
+        navigate("/login");
+      } catch (error) {
+        console.error("Error en el registro:", error);
+        setUser(null);
+        throw error;
       }
-    } catch (error) {
-      console.error('Error en el login:', error);
-      setUser(null);
-      throw error;
-    }
-  }, [navigate]);
+    },
+    [navigate],
+  );
 
   const logout = useCallback(async () => {
     try {
-      await authFetch('/api/auth/logout', {
-        method: 'POST',
+      await authFetch("/api/auth/logout", {
+        method: "POST",
       });
     } catch (error) {
-      console.error('Error en el logout:', error);
+      console.error("Error en el logout:", error);
     } finally {
       setUser(null);
     }
@@ -113,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       register,
       logout,
     }),
-    [user, isLoading, login, register, logout]
+    [user, isLoading, login, register, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -123,7 +125,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
+    throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
   return context;
 };

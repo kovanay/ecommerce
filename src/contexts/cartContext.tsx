@@ -88,6 +88,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
         quantity: quantityMap.get(product.product_id) || 0,
       }));
+
+      if (!productsResponse) {
+        setCartProducts([]);
+      }
       setCartProducts(mergedProducts);
     } catch (error) {
       console.error("Error al obtener los productos del carrito:", error);
